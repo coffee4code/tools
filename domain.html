@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>DomainTest</title>
+    <link rel="stylesheet" href="assets/css/common/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="assets/css/common/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-sm-10 col-md-offset-4 col-sm-offset-1">
+            <h1 class="text-center">Domain Name test</h1>
+            <div class="input-group" style="margin-top: 100px;">
+                <input id="inp" type="text" class="form-control" placeholder="Input a keyword...">
+                <span class="input-group-btn">
+                    <button id="btn-submit" class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="main-row" style="margin-top: 50px;">
+        <div class="col-sm-4 col-sm-10 col-md-offset-4 col-sm-offset-1">
+            <h4 class="text-left">Result:</h4>
+            <hr/>
+        </div>
+    </div>
+</div>
+<div class="hidden">
+    <script src="assets/js/common/jquery-2.1.3.min.js"></script>
+    <script src="assets/js/common/bootstrap.min.js"></script>
+    <script>
+        var domainSuffix = [
+            '.com',
+            '.cn',
+            '.xyz',
+            '.wang',
+            '.pub',
+            '.net',
+            '.rocks',
+            '.top',
+            '.ren',
+            '.club',
+            '.band',
+            '.market',
+            '.software',
+            '.social',
+            '.lawyer',
+            '.engineer',
+            '.我爱你',
+            '.net.cn',
+            '.org.cn',
+            '.gov.cn',
+            '.org',
+            '.biz',
+            '.info',
+            '.name',
+            '.tv',
+            '.mobi',
+            '.asia',
+            '.中国',
+            '.so',
+            '.公司',
+            '.集团',
+            '.网络',
+            '.tel',
+            '.co',
+            '.com.cn',
+            '.me',
+            '.cc'
+        ];
+        $(function(){
+            var $btn = $('#btn-submit'),
+                $inp = $('#inp'),
+                $mainRow = $('#main-row');
+            $btn.click(function(){
+                var keyword = $inp.val();
+                var check = function(index){
+                    if(keyword){
+                        var domain = keyword + domainSuffix[index];
+                        $.ajax({
+                            url:'http://pandavip.www.net.cn/check/check_ac1.cgi',
+                            data:{
+                                domain:domain
+                            },
+                            method:'GET',
+                            dataType:'jsonp',
+                            success:function(data){
+                                if(data){
+                                    var results = data.split('|'),
+                                            domainText = results[1],
+                                            code = Number(results[2]),
+                                            tip = results[3],
+                                            classText = code === 210 ? 'success' : 'warning';
+
+                                    $mainRow.append('<div class="col-md-4 col-sm-10 col-md-offset-4 col-sm-offset-1"><span>'+domainText+'</span><span class="'+classText+'">'+tip+'</span></div>');
+                                    setTimeout(function(){
+                                        next(index);
+                                    },5000);
+                                }
+                            }
+                        });
+                    }
+                };
+                var next = function(index){
+                    index++;
+                    if(index < domainSuffix.length){
+                        check(index);
+                    }
+                };
+                check(0);
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
