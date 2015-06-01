@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head><title>Sample usage for the Animate From To-plugin</title></head>
+<body>
+<script src="assets/js/common/jquery-2.1.3.min.js"></script>
+<script src="assets/js/plugins/jquery.flyto.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#button1").click(function(){
+            // Animate one element to another – bare bones version:
+            $("#prod_123").flytocart("#cart");
+            // May also be constructed as:
+            // $.animate_from_to("#prod_123", "#cart");
+        })
+        $("#button2").click(function(){
+            $("#prod_123").flytocart('#cart', {
+                pixels_per_second: 200
+            });
+            // Or :
+            /*
+             $.animate_from_to("#prod_123", "#cart", {
+             pixels_per_second: 200
+             });
+             */
+        })
+        $("#button3").click(function(){
+            $("#prod_123").flytocart('#cart', {
+                pixels_per_second: 200,
+                initial_css: {
+                    'background': 'blue'
+                }
+            });
+        })
+        $("#button4").click(function(){
+            $("#prod_123").flytocart('#cart', {
+                callback: function(){ alert('Animation done') },
+            });
+        })
+    });
+</script>
+
+    <span id="cart">
+        My shopping cart
+    </span>
+
+
+<div id="prod_123" style="height: 100px; width:300px; margin-top: 300px; background: pink">
+    <form onsubmit="return false;">
+        <button type="submit" id="button1">Add to cart (default)</button>
+        <button type="submit" id="button2">Add to cart (slow)</button>
+        <button type="submit" id="button3">Add to cart (slow, blue)</button>
+        <button type="submit" id="button4">Add to cart (callback)</button>
+    </form>
+</div>
+</body>
+</html>
